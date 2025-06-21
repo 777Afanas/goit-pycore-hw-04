@@ -7,26 +7,24 @@ def total_salary(path):
         print(f"Файл не знайдено: {path}")
         return 0, 0
     
-    try:
-        salary_info = file_path.read_text(encoding='utf-8')
-
+    try: 
         total = 0
         count = 0
 
-        lines = salary_info.strip().splitlines()
+        with file_path.open(encoding='utf-8') as file: 
+            for line in file:
+                line = line.strip()
+                if not line:
+                    continue
 
-        for line in lines:
-            if not line:
-                continue
-
-            try:
-                name, salary_str = line.split(',')
-                salary = float(salary_str)
-                total += salary
-                count += 1
-            except ValueError:
-                print(f"Помилка обробки рядка: '{line}` - пропущено")
-                continue
+                try:
+                    name, salary_str = line.split(',')
+                    salary = float(salary_str)
+                    total += salary
+                    count += 1
+                except ValueError:
+                    print(f"Помилка обробки рядка: '{line}` - пропущено")
+                    continue
 
         if count == 0:
             return 0, 0
